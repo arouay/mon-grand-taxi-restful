@@ -1,7 +1,8 @@
 package ma.montaxi.montaxiRestfulApi.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import ma.montaxi.montaxiRestfulApi.settings.converters.RoleEnumConverter;
+import ma.montaxi.montaxiRestfulApi.settings.security.RoleEnum;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
@@ -11,6 +12,9 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Setter
+@Getter
 public class Role implements Serializable {
 
     @Id
@@ -19,25 +23,6 @@ public class Role implements Serializable {
 
     @NotNull
     @Column(unique = true)
-    private String roleName;
-
-    public Role(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
+    @Convert(converter = RoleEnumConverter.class)
+    private RoleEnum role;
 }

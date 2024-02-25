@@ -2,7 +2,7 @@ package ma.montaxi.montaxiRestfulApi.controllers;
 
 import ma.montaxi.montaxiRestfulApi.entities.Journey;
 import ma.montaxi.montaxiRestfulApi.services.JourneyService;
-import ma.montaxi.montaxiRestfulApi.settings.security.Roles;
+import ma.montaxi.montaxiRestfulApi.settings.security.RoleEnum;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class JourneyController {
     }
 
     @PostMapping(value = "new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('"+ Roles.SCOPE_DRIVER +"') or hasAuthority('"+ Roles.SCOPE_PASSENGER +"')")
+    @PreAuthorize("hasAuthority('" + RoleEnum.Constants.SCOPE_DRIVER_VALUE + "') or hasAuthority('" + RoleEnum.Constants.SCOPE_PASSENGER_VALUE + "')")
     public ResponseEntity<?> newJourney(@RequestBody Journey journey) {
         try {
             return ResponseEntity.ok(this.journeyService.saveJourney(journey));

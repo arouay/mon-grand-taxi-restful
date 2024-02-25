@@ -1,12 +1,15 @@
 package ma.montaxi.montaxiRestfulApi.dtos;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 public class ReservationDto {
     private Long tripId;
     private LocalDateTime reservedAt;

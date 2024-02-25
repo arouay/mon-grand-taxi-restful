@@ -1,10 +1,13 @@
 package ma.montaxi.montaxiRestfulApi.dtos;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 public class LocationDto {
     private Double longitude;
     private Double latitude;

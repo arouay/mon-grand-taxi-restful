@@ -1,13 +1,16 @@
 package ma.montaxi.montaxiRestfulApi.dtos;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 public class UserDto {
     @NotNull
     @Email

@@ -1,11 +1,14 @@
 package ma.montaxi.montaxiRestfulApi.dtos;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ma.montaxi.montaxiRestfulApi.settings.enums.CreationStatus;
 
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 public class JourneyDto {
     private Long id;
     private String departurePlace;
