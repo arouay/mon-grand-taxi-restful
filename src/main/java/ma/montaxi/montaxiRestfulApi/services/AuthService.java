@@ -12,10 +12,11 @@ import ma.montaxi.montaxiRestfulApi.entities.Role;
 import ma.montaxi.montaxiRestfulApi.entities.User;
 import ma.montaxi.montaxiRestfulApi.exceptions.InvalidUserException;
 import ma.montaxi.montaxiRestfulApi.settings.constants.CarSeats;
-import ma.montaxi.montaxiRestfulApi.settings.security.Roles;
+import ma.montaxi.montaxiRestfulApi.settings.security.RoleEnum;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -61,7 +62,7 @@ public class AuthService {
         String scope = authentication
                 .getAuthorities()
                 .stream()
-                .map(auth -> auth.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet
@@ -84,20 +85,18 @@ public class AuthService {
             throw new InvalidUserException("Username is already taken");
         }
 
-        Optional<Role> userRole = userDto.getIsDriver() ?
-                this.roleRepository.findByRoleName(Roles.DRIVER) :
-                this.roleRepository.findByRoleName(Roles.PASSENGER);
+        Optional<Role> userRole = this.roleRepository.findByRole(
+                userDto.getIsDriver() ? RoleEnum.DRIVER : RoleEnum.PASSENGER
+        );
 
         Collection<Role> roles = new ArrayList<>();
 
         if (userRole.isEmpty()) {
-            Role role;
-            if (userDto.getIsDriver()) {
-                role = new Role(Roles.DRIVER);
-            } else {
-                role = new Role(Roles.PASSENGER);
-            }
-            log.info("****** No Role found | New Role created with role name : " + role.getRoleName() + " ******");
+            var role = Role.builder()
+                    .role(userDto.getIsDriver() ? RoleEnum.DRIVER : RoleEnum.PASSENGER)
+                    .build();
+
+            log.info("****** No Role found | New Role created with role name : " + role.getRole().getName() + " ******");
             roles.add(this.roleRepository.save(role));
         } else {
             roles.add(userRole.get());

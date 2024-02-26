@@ -1,7 +1,6 @@
 package ma.montaxi.montaxiRestfulApi.dtos;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ma.montaxi.montaxiRestfulApi.settings.constants.CarSeats;
 import ma.montaxi.montaxiRestfulApi.settings.enums.CreationStatus;
 
@@ -12,7 +11,11 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 public class TripDto {
     private Long id;
     @NotNull

@@ -5,7 +5,7 @@ import ma.montaxi.montaxiRestfulApi.entities.Passenger;
 import ma.montaxi.montaxiRestfulApi.exceptions.HandledException;
 import ma.montaxi.montaxiRestfulApi.services.ReservationService;
 import ma.montaxi.montaxiRestfulApi.services.TripService;
-import ma.montaxi.montaxiRestfulApi.settings.security.Roles;
+import ma.montaxi.montaxiRestfulApi.settings.security.RoleEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +25,13 @@ public class ReservationController {
     }
 
     @GetMapping(value = "waitingPassengers/{tripId}")
-    @PreAuthorize("hasAuthority('" + Roles.SCOPE_DRIVER + "')")
+    @PreAuthorize("hasAuthority('" + RoleEnum.Constants.SCOPE_DRIVER_VALUE + "')")
     public List<Passenger> listWaitingPassengersInTrip(@PathVariable Long tripId) {
         return this.tripService.getWaitingPassengersInTrip(tripId);
     }
 
     @PostMapping("seat/new")
-    @PreAuthorize("hasAuthority('" + Roles.SCOPE_PASSENGER + "')")
+    @PreAuthorize("hasAuthority('" + RoleEnum.Constants.SCOPE_PASSENGER_VALUE + "')")
     public ResponseEntity<?> reserveYourSeat(@RequestBody ReservationDto reservationDto, Principal principal) {
         String username = principal.getName();
 
